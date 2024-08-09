@@ -60,21 +60,21 @@ image = (  # build up a Modal Image to run ComfyUI, step by step
         python_version="3.11"
     )
     .apt_install("git")  # install git to clone ComfyUI
-    .pip_install("comfy-cli==1.0.33")  # install comfy-cli
+    .pip_install("comfy-cli==1.0.35")  # install comfy-cli
     .run_commands(  # use comfy-cli to install the ComfyUI repo and its dependencies
         "comfy --skip-prompt install --nvidia",
     )
     .run_commands(  # download the inpainting model
-        "comfy --skip-prompt model download --url https://huggingface.co/stabilityai/stable-diffusion-2-inpainting/resolve/main/512-inpainting-ema.safetensors --relative-path models/checkpoints"
+        "comfy --skip-prompt model download --url https://huggingface.co/stabilityai/stable-diffusion-2-inpainting/resolve/main/512-inpainting-ema.safetensors --relative-path models/checkpoints/"
     )
-    .run_commands(  # download the Flix model
-        "comfy --skip-prompt model download --url https://huggingface.co/black-forest-labs/FLUX.1-schnell/resolve/main/flux1-dev.safetensors --relative-path models/unet/"
+    .run_commands(  # download the Flux model
+        "comfy --skip-prompt model download --url https://huggingface.co/comfyanonymous/hunyuan_dit_comfyui/resolve/main/hunyuan_dit_1.2.safetensors --relative-path models/checkpoints/"
     )
     .run_commands(  # download the Clip/T5 model
         "comfy --skip-prompt model download --url https://huggingface.co/comfyanonymous/flux_text_encoders/resolve/main/t5xxl_fp16.safetensors --relative-path models/clip/"
     )
     .run_commands(  # download the VAE model
-        "comfy --skip-prompt model download --url https://huggingface.co/black-forest-labs/FLUX.1-schnell/resolve/main/ae.safetensors --relative-path models/clip/"
+        "comfy --skip-prompt model download --url https://huggingface.co/black-forest-labs/FLUX.1-schnell/resolve/main/ae.safetensors --relative-path models/vae/"
     )
     .run_commands(  # download a custom node
         "comfy node install image-resize-comfyui"
@@ -93,7 +93,7 @@ app = modal.App(name="flux-comfyui", image=image)
     concurrency_limit=1,
     container_idle_timeout=30,
     timeout=1800,
-    gpu="any",
+    gpu="A100",
 )
 @modal.web_server(8000, startup_timeout=60)
 def ui():
