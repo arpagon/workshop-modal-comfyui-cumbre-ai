@@ -67,7 +67,7 @@ image = (  # build up a Modal Image to run ComfyUI, step by step
     .run_commands(  # download the inpainting model
         "comfy --skip-prompt model download --url https://huggingface.co/stabilityai/stable-diffusion-2-inpainting/resolve/main/512-inpainting-ema.safetensors --relative-path models/checkpoints/"
     )
-    .run_commands(  # download the Flux model
+    .run_commands(  # download the Flux model need login (https://huggingface.co/black-forest-labs/FLUX.1-dev/resolve/main/flux1-dev.safetensors)
         "comfy --skip-prompt model download --url https://huggingface.co/comfyanonymous/hunyuan_dit_comfyui/resolve/main/hunyuan_dit_1.2.safetensors --relative-path models/checkpoints/"
     )
     .run_commands(  # download the Clip/T5 model
